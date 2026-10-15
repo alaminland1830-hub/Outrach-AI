@@ -15,10 +15,12 @@ export function errMsg(e) {
   if (!d) return e?.message || "Something went wrong";
   if (typeof d === "string") return d;
   if (Array.isArray(d)) return d.map((x) => x?.msg || JSON.stringify(x)).join(" ");
-  return d.msg || String(d);
+  return d.message || d.msg || String(d);
 }
 
-export async function streamSSE(path, body, onChunk) {
+export const dupLeadId = (e) => e?.response?.status === 409 ? e.response.data?.detail?.lead_id : null;
+
+export async function streamSSE(path, body, { onText, onEvent } = {}) {
   const res = await fetch(`${API}${path}`, {
     method: "POST",
     credentials: "include",
@@ -27,13 +29,14 @@ export async function streamSSE(path, body, onChunk) {
   });
   if (!res.ok) {
     let detail = `Request failed (${res.status})`;
-    try { detail = (await res.json()).detail || detail; } catch (_) { /* ignore */ }
+    try { const j = await res.json(); detail = j.detail?.message || j.detail || detail; } catch (_) { /* not json */ }
     throw new Error(typeof detail === "string" ? detail : JSON.stringify(detail));
   }
   const reader = res.body.getReader();
   const decoder = new TextDecoder();
   let buf = "";
   let full = "";
+  let final = null;
   for (;;) {
     const { done, value } = await reader.read();
     if (done) break;
@@ -44,8 +47,20 @@ export async function streamSSE(path, body, onChunk) {
       if (!p.startsWith("data:")) continue;
       const ev = JSON.parse(p.slice(5));
       if (ev.error) throw new Error(ev.error);
-      if (ev.t) { full += ev.t; onChunk(full); }
+      if (ev.t) { full += ev.t; onText?.(full); }
+      if (ev.ev) onEvent?.(ev);
+      if (ev.done) final = ev;
     }
   }
-  return full;
+  return { text: full, final };
+}
+
+export async function download(path, filename) {
+  const r = await api.get(path, { responseType: "blob" });
+  const url = URL.createObjectURL(r.data);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = filename;
+  a.click();
+  URL.revokeObjectURL(url);
 }

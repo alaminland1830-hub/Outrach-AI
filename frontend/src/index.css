@@ -10,44 +10,61 @@ body {
     -moz-osx-font-smoothing: grayscale;
 }
 
-code, .font-mono {
-    font-family: "JetBrains Mono", monospace;
-}
+code, .font-mono { font-family: "JetBrains Mono", monospace; }
 
 @layer base {
     :root {
-        --background: 0 0% 98%;
-        --foreground: 240 6% 7%;
+        --background: 240 20% 98%;
+        --foreground: 240 10% 8%;
         --card: 0 0% 100%;
-        --card-foreground: 240 6% 7%;
+        --card-foreground: 240 10% 8%;
         --popover: 0 0% 100%;
-        --popover-foreground: 240 6% 7%;
-        --primary: 240 6% 7%;
-        --primary-foreground: 0 0% 98%;
-        --secondary: 240 5% 95%;
-        --secondary-foreground: 240 6% 10%;
-        --muted: 240 5% 95%;
-        --muted-foreground: 240 4% 46%;
-        --accent: 243 80% 64%;
-        --accent-foreground: 0 0% 100%;
+        --popover-foreground: 240 10% 8%;
+        --primary: 262 83% 58%;
+        --primary-foreground: 0 0% 100%;
+        --secondary: 240 6% 94%;
+        --secondary-foreground: 240 10% 12%;
+        --muted: 240 6% 95%;
+        --muted-foreground: 240 5% 44%;
+        --accent: 262 83% 96%;
+        --accent-foreground: 262 70% 40%;
         --destructive: 0 72% 51%;
         --destructive-foreground: 0 0% 98%;
         --border: 240 6% 90%;
         --input: 240 6% 88%;
-        --ring: 243 80% 64%;
-        --radius: 0.75rem;
+        --ring: 262 83% 58%;
+        --radius: 0.85rem;
+    }
+    .dark {
+        --background: 240 12% 5%;
+        --foreground: 240 6% 94%;
+        --card: 240 10% 8%;
+        --card-foreground: 240 6% 94%;
+        --popover: 240 10% 9%;
+        --popover-foreground: 240 6% 94%;
+        --primary: 262 83% 66%;
+        --primary-foreground: 0 0% 100%;
+        --secondary: 240 8% 14%;
+        --secondary-foreground: 240 6% 94%;
+        --muted: 240 8% 13%;
+        --muted-foreground: 240 5% 62%;
+        --accent: 262 40% 18%;
+        --accent-foreground: 262 90% 82%;
+        --destructive: 0 62% 50%;
+        --destructive-foreground: 0 0% 98%;
+        --border: 240 8% 17%;
+        --input: 240 8% 20%;
+        --ring: 262 83% 66%;
     }
 }
 
 @layer base {
     * { @apply border-border; }
     body { @apply bg-background text-foreground; }
-    ::selection { background: hsl(243 80% 64% / 0.25); }
+    ::selection { background: hsl(262 83% 58% / 0.25); }
 }
 
-.glow-orb {
-    background: radial-gradient(circle at 70% 20%, rgba(79, 70, 229, 0.35), transparent 45%);
-}
+.glow-orb { background: radial-gradient(circle at 80% 0%, rgba(124, 58, 237, 0.28), transparent 50%); }
 
 .noise::after {
     content: "";
@@ -58,32 +75,23 @@ code, .font-mono {
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
 
-.fade-up {
-    animation: fadeUp 0.5s cubic-bezier(.2,.8,.2,1) both;
-}
-@keyframes fadeUp {
-    from { opacity: 0; transform: translateY(10px); }
-    to { opacity: 1; transform: translateY(0); }
-}
+.fade-up { animation: fadeUp 0.45s cubic-bezier(.2,.8,.2,1) both; }
+@keyframes fadeUp { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
 
-.caret::after {
-    content: "▍";
-    animation: blink 1s steps(2) infinite;
-    color: hsl(243 80% 64%);
-    margin-left: 2px;
-}
+.caret::after { content: "▍"; animation: blink 1s steps(2) infinite; color: hsl(var(--primary)); margin-left: 2px; }
 @keyframes blink { 50% { opacity: 0; } }
 
-.prose-ai h1, .prose-ai h2, .prose-ai h3 { font-weight: 700; margin: 1.1em 0 0.4em; letter-spacing: -0.01em; }
-.prose-ai h2 { font-size: 1.05rem; }
+.prose-ai h1, .prose-ai h2, .prose-ai h3 { font-weight: 700; margin: 1em 0 0.35em; letter-spacing: -0.01em; }
+.prose-ai h2 { font-size: 1.02rem; }
 .prose-ai h3 { font-size: 0.95rem; }
-.prose-ai p { margin: 0.45em 0; line-height: 1.65; }
-.prose-ai ul, .prose-ai ol { padding-left: 1.2em; margin: 0.4em 0; }
+.prose-ai p { margin: 0.4em 0; line-height: 1.65; }
+.prose-ai ul, .prose-ai ol { padding-left: 1.2em; margin: 0.35em 0; }
 .prose-ai ul { list-style: disc; }
 .prose-ai ol { list-style: decimal; }
-.prose-ai li { margin: 0.2em 0; }
+.prose-ai li { margin: 0.15em 0; }
 .prose-ai strong { font-weight: 600; }
-.prose-ai em { color: hsl(240 4% 46%); }
-.prose-ai code { background: hsl(240 5% 94%); padding: 1px 5px; border-radius: 4px; font-size: 0.85em; }
+.prose-ai em { color: hsl(var(--muted-foreground)); }
+.prose-ai code { background: hsl(var(--muted)); padding: 1px 5px; border-radius: 4px; font-size: 0.85em; }
+.prose-ai a { color: hsl(var(--primary)); text-decoration: underline; }
 
 [data-debug-wrapper="true"] { display: contents !important; }

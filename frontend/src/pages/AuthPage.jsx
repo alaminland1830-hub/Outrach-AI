@@ -31,8 +31,8 @@ export default function AuthPage() {
   return (
     <div className="grid min-h-screen lg:grid-cols-2">
       <section className="noise relative flex flex-col overflow-hidden bg-[#0B0B0C] p-8 text-white sm:p-10">
-        <div className="pointer-events-none absolute -right-40 -top-40 h-[640px] w-[640px] rounded-full bg-indigo-700/40 blur-[120px]" />
-        <div className="relative"><Logo light /></div>
+        <div className="pointer-events-none absolute -right-40 -top-40 h-[640px] w-[640px] rounded-full bg-violet-700/40 blur-[120px]" />
+        <div className="relative"><Logo /></div>
         <div className="relative my-16 max-w-2xl lg:my-auto">
           <h1 className="fade-up text-4xl font-bold leading-[1.05] tracking-tight sm:text-5xl lg:text-6xl">
             Your personal AI sales employee for video editing.
@@ -52,7 +52,7 @@ export default function AuthPage() {
         <p className="relative text-xs text-zinc-500">Built for editors, freelancers and agencies.</p>
       </section>
 
-      <section className="flex items-center justify-center bg-[#FAFAFA] p-8">
+      <section className="flex items-center justify-center bg-background p-8">
         <form onSubmit={submit} className="fade-up w-full max-w-sm space-y-5" data-testid="auth-form">
           <div>
             <h2 className="text-3xl font-bold tracking-tight">{mode === "login" ? "Sign in" : "Create account"}</h2>
@@ -62,14 +62,14 @@ export default function AuthPage() {
           </div>
           {mode === "register" && (
             <div className="space-y-1.5"><Label>Name</Label>
-              <Input data-testid="auth-name-input" className="h-11 bg-white" value={f.name} onChange={(e) => setF({ ...f, name: e.target.value })} placeholder="Your name" />
+              <Input data-testid="auth-name-input" className="h-11 bg-card" value={f.name} onChange={(e) => setF({ ...f, name: e.target.value })} placeholder="Your name" />
             </div>
           )}
           <div className="space-y-1.5"><Label>Email</Label>
-            <Input data-testid="auth-email-input" type="email" required className="h-11 bg-white" value={f.email} onChange={(e) => setF({ ...f, email: e.target.value })} placeholder="you@example.com" />
+            <Input data-testid="auth-email-input" type="email" required className="h-11 bg-card" value={f.email} onChange={(e) => setF({ ...f, email: e.target.value })} placeholder="you@example.com" />
           </div>
           <div className="space-y-1.5"><Label>Password</Label>
-            <Input data-testid="auth-password-input" type="password" required minLength={6} className="h-11 bg-white" value={f.password} onChange={(e) => setF({ ...f, password: e.target.value })} placeholder="••••••••" />
+            <Input data-testid="auth-password-input" type="password" required minLength={6} className="h-11 bg-card" value={f.password} onChange={(e) => setF({ ...f, password: e.target.value })} placeholder="••••••••" />
           </div>
           {error && <p data-testid="auth-error" className="text-sm text-red-600">{error}</p>}
           <Button data-testid="auth-submit-btn" disabled={busy} className="h-11 w-full rounded-xl">
@@ -77,13 +77,13 @@ export default function AuthPage() {
           </Button>
           <p className="text-center text-sm text-muted-foreground">
             {mode === "login" ? "No account? " : "Already have one? "}
-            <button type="button" data-testid="auth-toggle-mode" className="font-medium text-indigo-600 hover:underline"
+            <button type="button" data-testid="auth-toggle-mode" className="font-medium text-violet-600 hover:underline"
               onClick={() => { setMode(mode === "login" ? "register" : "login"); setError(""); }}>
               {mode === "login" ? "Create one" : "Sign in"}
             </button>
           </p>
           <button type="button" data-testid="demo-admin-fill" onClick={() => setF({ ...f, email: "admin@outreach.ai", password: "Admin@123" })}
-            className="w-full rounded-lg bg-zinc-100 py-3 text-xs text-muted-foreground transition-colors hover:bg-zinc-200">
+            className="w-full rounded-lg bg-muted py-3 text-xs text-muted-foreground transition-colors hover:bg-secondary">
             Demo admin: <code>admin@outreach.ai</code> / <code>Admin@123</code>
           </button>
         </form>

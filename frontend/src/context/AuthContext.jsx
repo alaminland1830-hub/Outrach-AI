@@ -5,10 +5,21 @@ const AuthCtx = createContext(null);
 
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
+  const [theme, setThemeState] = useState(localStorage.getItem("oa_theme") || "light");
 
   useEffect(() => {
     api.get("/auth/me").then((r) => setUser(r.data)).catch(() => setUser(false));
   }, []);
+
+  useEffect(() => {
+    document.documentElement.classList.toggle("dark", theme === "night");
+    localStorage.setItem("oa_theme", theme);
+  }, [theme]);
+
+  const setTheme = (t) => {
+    setThemeState(t);
+    api.put("/settings", { theme: t }).catch(() => {});
+  };
 
   const signIn = async (mode, payload) => {
     const { data } = await api.post(`/auth/${mode}`, payload);
@@ -22,7 +33,7 @@ export function AuthProvider({ children }) {
     setUser(false);
   };
 
-  return <AuthCtx.Provider value={{ user, signIn, signOut }}>{children}</AuthCtx.Provider>;
+  return <AuthCtx.Provider value={{ user, signIn, signOut, theme, setTheme }}>{children}</AuthCtx.Provider>;
 }
 
 export const useAuth = () => useContext(AuthCtx);
